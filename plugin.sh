@@ -125,11 +125,11 @@ if [ "$1" == "build" ]; then
     printf "########################################${NORMAL}\n"
     printf "Waiting for build status ..."
 
-    AVAILABLE=$(is_build_available $AUTH $JENKINS_JOB_URL $NEXT_BUILD $CRUMB)
+    AVAILABLE=$(is_build_available $AUTH "$JENKINS_JOB_URL" $NEXT_BUILD $CRUMB)
 
     while [ "$AVAILABLE" != "true" ]; do
         sleep 1
-        AVAILABLE=$(is_build_available $AUTH $JENKINS_JOB_URL $NEXT_BUILD $CRUMB)
+        AVAILABLE=$(is_build_available $AUTH "$JENKINS_JOB_URL" $NEXT_BUILD $CRUMB)
     done
 
     IN_PROGRESS=true
