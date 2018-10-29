@@ -83,8 +83,8 @@ if [ "$1" == "build" ]; then
     # overwrite parameters specified in the command with the parameters in pro-cli.json
     for var in "$@"; do
         param=${var#"--"}
-        key=$(echo $param | sed -n 's/\([a-z\-_]*\)=.*/\1/p')
-        value=$(echo $param | sed -n 's/[a-z\-_]*=\([a-z\-_]*\)/\1/p')
+        key=${param%%=*}
+        value=${param#*=}
 
         ALL_PARAMS=$(echo $ALL_PARAMS | jq ".$key = \"${value}\"" | jq -M .)
     done
