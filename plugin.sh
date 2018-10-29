@@ -30,7 +30,7 @@ if [ "$1" == "build" ]; then
         JENKINS_OUTPUT=true
     fi
 
-    JENKINS_URL=$(cat "$BASE_CONFIG" | jq -r '.jenkins.url')
+    JENKINS_URL=$(cat "$PROJECT_CONFIG" | jq -r '.jenkins.url')
     JENKINS_USER=$(cat "$BASE_CONFIG" | jq -r '.jenkins.user')
     JENKINS_TOKEN=$(cat "$BASE_CONFIG" | jq -r '.jenkins.token')
 
@@ -51,7 +51,7 @@ if [ "$1" == "build" ]; then
     fi
 
     JENKINS_BUILD=$1
-    JENKINS_CONFIRM=$(cat "$BASE_CONFIG" | jq -r --arg BUILD "$JENKINS_BUILD" '.builds[$BUILD].confirm')
+    JENKINS_CONFIRM=$(cat "$PROJECT_CONFIG" | jq -r --arg BUILD "$JENKINS_BUILD" '.builds[$BUILD].confirm')
 
     if [ "$JENKINS_CONFIRM" == "true" ]; then
         read -p "Are you sure you want to start the build '${BLUE}${JENKINS_BUILD}${NORMAL}'? " -n 1 -r
@@ -64,7 +64,7 @@ if [ "$1" == "build" ]; then
         printf "\n"
     fi
 
-    JENKINS_PATH=$(cat "$BASE_CONFIG" | jq -r --arg BUILD "$JENKINS_BUILD" '.builds[$BUILD].path')
+    JENKINS_PATH=$(cat "$PROJECT_CONFIG" | jq -r --arg BUILD "$JENKINS_BUILD" '.builds[$BUILD].path')
 
     if [ "$JENKINS_PATH" == "null" ] || [ -z "$JENKINS_PATH" ]; then
         printf "${YELLOW}No path to this build specified. Set it in your project's ${BLUE}pro-cli.json${NORMAL}\n"
@@ -78,7 +78,7 @@ if [ "$1" == "build" ]; then
     JENKINS_PARAMS=""
 
     # get parameters for the build which are specified in pro-cli.json
-    ALL_PARAMS=$(cat "$BASE_CONFIG" | jq --arg BUILD "$JENKINS_BUILD" '.builds[$BUILD].params')
+    ALL_PARAMS=$(cat "$PROJECT_CONFIG" | jq --arg BUILD "$JENKINS_BUILD" '.builds[$BUILD].params')
 
     # overwrite parameters specified in the command with the parameters in pro-cli.json
     for var in "$@"; do
