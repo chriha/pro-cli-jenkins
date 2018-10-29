@@ -35,7 +35,7 @@ if [ "$1" == "build" ]; then
     JENKINS_TOKEN=$(cat "$BASE_CONFIG" | jq -r '.jenkins.token')
 
     if [ "$JENKINS_URL" == "null" ] || [ -z "$JENKINS_URL" ]; then
-        printf "${YELLOW}No Jenkins URL set. You can set it via:${NORMAL}\nproject config -g jenkins.url YOUR_URL\n"
+        printf "${YELLOW}No Jenkins URL set. You can set it via:${NORMAL}\nproject config jenkins.url YOUR_URL\n"
         exit
     elif [ "$JENKINS_USER" == "null" ] || [ -z "$JENKINS_USER" ]; then
         printf "${YELLOW}No Jenkins user set. You can set it via:${NORMAL}\nproject config -g jenkins.user YOUR_USER\n"
